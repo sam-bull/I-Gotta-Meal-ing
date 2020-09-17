@@ -29,14 +29,16 @@ class MainViewModel @Inject constructor(val mealsService: MealsService) : ViewMo
 
     fun onViewCreated() {
         mealsService.getCategories(API_KEY).enqueue(object : Callback<Categories> {
-            override fun onResponse(
-                call: Call<Categories>,
-                response: Response<Categories>
-            ) {
-                println(response.body().toString())
-                response.body()
-                    ?.categories?.let { categories.addAll(it.map { category -> category.strCategory }) }
-                _categoriesLoaded.postValue(true)
+            override fun onResponse(call: Call<Categories>, response: Response<Categories>) {
+                if (response.isSuccessful) {
+                    response.body()?.categories?.let {
+                        categories.addAll(it.map { category -> category.strCategory })
+                    }
+                    _categoriesLoaded.postValue(true)
+                } else {
+                    _categoriesLoaded.postValue(false)
+                    _errorText.postValue(response.errorBody()?.string())
+                }
             }
 
             override fun onFailure(call: Call<Categories>, t: Throwable) {
