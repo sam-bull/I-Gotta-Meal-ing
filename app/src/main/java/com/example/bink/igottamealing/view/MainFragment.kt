@@ -8,10 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bink.igottamealing.MealingApplication
 import com.example.bink.igottamealing.R
-import com.example.bink.igottamealing.adaptor.CategoryAdaptor
+import com.example.bink.igottamealing.adaptor.CategoryAdapter
 import com.example.bink.igottamealing.databinding.FragmentMainBinding
 import com.example.bink.igottamealing.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -45,13 +44,13 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        categories_recyclerview.layoutManager = LinearLayoutManager(context)
-        categories_recyclerview.adapter = CategoryAdaptor(viewModel.categories)
+        // TODO change spanCount for different screens
+        categories_recyclerview.layoutManager = GridLayoutManager(context, 2)
+        categories_recyclerview.adapter = CategoryAdapter(viewModel.categories)
 
         viewModel.categoriesLoaded.observe(viewLifecycleOwner, Observer { success ->
             categories_view_flipper.displayedChild = if (success) 1 else 2
-            (categories_recyclerview.adapter as CategoryAdaptor).notifyDataSetChanged()
-
+            (categories_recyclerview.adapter as CategoryAdapter).notifyDataSetChanged()
         })
 
         viewModel.onViewCreated()
