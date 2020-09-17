@@ -15,11 +15,6 @@ import javax.inject.Singleton
 @Singleton
 class MainViewModel @Inject constructor(private val mealsService: MealsService) : ViewModel() {
 
-    companion object {
-        // For real API keys, we should have a more secure storage solution
-        private const val API_KEY = "1"
-    }
-
     val categories = mutableListOf<Category>()
 
     private val _categoriesLoaded = MutableLiveData<Boolean>()
@@ -29,7 +24,7 @@ class MainViewModel @Inject constructor(private val mealsService: MealsService) 
     val errorText: LiveData<String> = _errorText
 
     fun onViewCreated() {
-        mealsService.getCategories(API_KEY).enqueue(object : Callback<Categories> {
+        mealsService.getCategories(MealsService.API_KEY).enqueue(object : Callback<Categories> {
             override fun onResponse(call: Call<Categories>, response: Response<Categories>) {
                 if (response.isSuccessful) {
                     response.body()?.categories?.let {

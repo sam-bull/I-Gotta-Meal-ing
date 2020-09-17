@@ -1,14 +1,19 @@
 package com.example.bink.igottamealing.adaptor
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bink.igottamealing.databinding.ViewCategoryBinding
 import com.example.bink.igottamealing.model.Category
+import com.example.bink.igottamealing.view.CategoryActivity
 import com.squareup.picasso.Picasso
 
-class CategoryAdapter(private val categories: List<Category>): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(private val context: Context, private val categories: List<Category>) :
+    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     class CategoryViewHolder(val binding: ViewCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -32,7 +37,13 @@ class CategoryAdapter(private val categories: List<Category>): RecyclerView.Adap
             categoryName = categories[position].strCategory
         }
         Picasso.get().load(categories[position].strCategoryThumb).into(holder.imageView)
-        holder.container.setOnClickListener {  }
+        val name = categories[position].strCategory
+        holder.container.setOnClickListener {
+            val intent = Intent(context, CategoryActivity::class.java).apply {
+                putExtra("CATEGORY", name)
+            }
+            startActivity(context, intent, null)
+        }
     }
 
 }

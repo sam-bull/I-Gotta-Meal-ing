@@ -1,6 +1,7 @@
 package com.example.bink.igottamealing.di
 
 import com.example.bink.igottamealing.api.MealsService
+import com.example.bink.igottamealing.viewmodel.CategoryViewModel
 import com.example.bink.igottamealing.viewmodel.MainViewModel
 import dagger.Module
 import dagger.Provides
@@ -22,4 +23,8 @@ class MealingModule {
     @Provides
     @Singleton
     fun providesMainViewModel(mealsService: MealsService): MainViewModel = MainViewModel(mealsService)
+
+    @Provides
+    @Singleton
+    fun providesCategoryViewModel(mealsService: MealsService): CategoryViewModel = CategoryViewModel(mealsService)
 }
