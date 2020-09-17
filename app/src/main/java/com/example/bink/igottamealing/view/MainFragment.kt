@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bink.igottamealing.MealingApplication
 import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.adaptor.CategoryAdaptor
 import com.example.bink.igottamealing.databinding.FragmentMainBinding
 import com.example.bink.igottamealing.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
@@ -20,20 +23,21 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    @Inject
+    lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity?.application as MealingApplication).component.inject(this)
         val binding: FragmentMainBinding =
             DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_main, container, false
             )
         binding.lifecycleOwner = this
-        viewModel = MainViewModel()
         binding.viewModel = viewModel
         return binding.root
     }

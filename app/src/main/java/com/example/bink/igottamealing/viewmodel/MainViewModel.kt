@@ -8,10 +8,11 @@ import com.example.bink.igottamealing.model.Categories
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MainViewModel : ViewModel() {
+@Singleton
+class MainViewModel @Inject constructor(val mealsService: MealsService) : ViewModel() {
 
     companion object {
         // For real API keys, we should have a more secure storage solution
@@ -27,11 +28,6 @@ class MainViewModel : ViewModel() {
     val errorText: LiveData<String> = _errorText
 
     fun onViewCreated() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://www.themealdb.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val mealsService = retrofit.create(MealsService::class.java)
         mealsService.getCategories(API_KEY).enqueue(object : Callback<Categories> {
             override fun onResponse(
                 call: Call<Categories>,
