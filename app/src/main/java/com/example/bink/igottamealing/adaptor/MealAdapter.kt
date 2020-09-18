@@ -3,6 +3,7 @@ package com.example.bink.igottamealing.adaptor
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.databinding.ViewMealBinding
 import com.example.bink.igottamealing.model.Meal
 import com.squareup.picasso.Picasso
@@ -31,7 +32,7 @@ class MealAdapter(private val meals: List<Meal>) :
         holder.binding.apply {
             mealName = meals[position].strMeal
         }
-        Picasso.get().load(meals[position].strMealThumb).into(holder.imageView)
+        Picasso.get().load(meals[position].strMealThumb).placeholder(R.drawable.ic_image_placeholder_white_24dp).into(holder.imageView)
         holder.container.setOnClickListener { }
     }
 

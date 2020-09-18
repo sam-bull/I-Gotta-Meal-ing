@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.databinding.ViewCategoryBinding
 import com.example.bink.igottamealing.model.Category
 import com.example.bink.igottamealing.view.CategoryActivity
@@ -36,7 +37,7 @@ class CategoryAdapter(private val context: Context, private val categories: List
         holder.binding.apply {
             categoryName = categories[position].strCategory
         }
-        Picasso.get().load(categories[position].strCategoryThumb).into(holder.imageView)
+        Picasso.get().load(categories[position].strCategoryThumb).placeholder(R.drawable.ic_image_placeholder_white_24dp).into(holder.imageView)
         val name = categories[position].strCategory
         holder.container.setOnClickListener {
             val intent = Intent(context, CategoryActivity::class.java).apply {
