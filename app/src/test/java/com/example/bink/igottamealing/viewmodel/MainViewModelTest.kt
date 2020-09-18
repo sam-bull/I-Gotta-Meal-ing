@@ -63,7 +63,8 @@ class MainViewModelTest {
     @Test
     fun `when the view is created and the categories request is successful, the UI is updated with the categories`() {
         // Given
-        val categories = listOf(Category("id", "name", "url", "desc"))
+        val category = Category("id", "name", "url", "desc")
+        val categories = listOf(category)
         whenever(mealsService.getCategories("1")).thenReturn(mockCall)
         whenever(mockCall.enqueue(captor.capture())).then {
             captor.value.onResponse(
@@ -77,7 +78,7 @@ class MainViewModelTest {
 
         // Then
         assertTrue(viewModel.categories.size == 1)
-        assertEquals("name", viewModel.categories[0])
+        assertEquals(category, viewModel.categories[0])
         verify(categoriesLoadedObserver, times(1)).onChanged(true)
     }
 
