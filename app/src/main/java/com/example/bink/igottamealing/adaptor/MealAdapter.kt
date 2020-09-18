@@ -1,14 +1,18 @@
 package com.example.bink.igottamealing.adaptor
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.databinding.ViewMealBinding
 import com.example.bink.igottamealing.model.Meal
+import com.example.bink.igottamealing.view.activity.MealDetailsActivity
 import com.squareup.picasso.Picasso
 
-class MealAdapter(private val meals: List<Meal>) :
+class MealAdapter(private val context: Context, private val meals: List<Meal>) :
     RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
 
     class MealViewHolder(val binding: ViewMealBinding) :
@@ -32,8 +36,15 @@ class MealAdapter(private val meals: List<Meal>) :
         holder.binding.apply {
             mealName = meals[position].strMeal
         }
-        Picasso.get().load(meals[position].strMealThumb).placeholder(R.drawable.ic_image_placeholder_white_24dp).into(holder.imageView)
-        holder.container.setOnClickListener { }
+        Picasso.get().load(meals[position].strMealThumb)
+            .placeholder(R.drawable.ic_image_placeholder_white_24dp).into(holder.imageView)
+        val mealId = meals[position].idMeal
+        holder.container.setOnClickListener {
+            val intent = Intent(context, MealDetailsActivity::class.java).apply {
+                putExtra("MEAL_ID", mealId)
+            }
+            startActivity(context, intent, null)
+        }
     }
 
 }

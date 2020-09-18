@@ -1,4 +1,4 @@
-package com.example.bink.igottamealing.view
+package com.example.bink.igottamealing.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +19,8 @@ import javax.inject.Inject
 class MainFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() =
+            MainFragment()
     }
 
     @Inject

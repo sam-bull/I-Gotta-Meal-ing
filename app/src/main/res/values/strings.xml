@@ -3,5 +3,6 @@
     <string name="app_tagline">Tonight\'s gonna be a good night</string>
     <string name="select_category">Select a category to get started</string>
     <string name="title_activity_category">Meals</string>
+    <string name="title_activity_meal_details">Meal Details</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.example.bink.igottamealing.view
+package com.example.bink.igottamealing.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +19,8 @@ import javax.inject.Inject
 class CategoryFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CategoryFragment()
+        fun newInstance() =
+            CategoryFragment()
     }
 
     @Inject
@@ -38,7 +39,7 @@ class CategoryFragment : Fragment() {
             )
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        viewModel.category = activity?.intent?.getStringExtra("CATEGORY") ?: "Seafood"
+        viewModel.category = activity?.intent?.getStringExtra("CATEGORY") ?: ""
         return binding.root
     }
 
@@ -46,7 +47,7 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         meals_recyclerview.layoutManager = LinearLayoutManager(context)
-        meals_recyclerview.adapter = MealAdapter(viewModel.meals)
+        meals_recyclerview.adapter = context?.let { MealAdapter(it, viewModel.meals) }
 
         viewModel.mealsLoaded.observe(viewLifecycleOwner, Observer { success ->
             meals_view_flipper.displayedChild = if (success) 1 else 2

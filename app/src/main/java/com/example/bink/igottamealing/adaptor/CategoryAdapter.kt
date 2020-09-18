@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.databinding.ViewCategoryBinding
 import com.example.bink.igottamealing.model.Category
-import com.example.bink.igottamealing.view.CategoryActivity
+import com.example.bink.igottamealing.view.activity.CategoryActivity
 import com.squareup.picasso.Picasso
 
 class CategoryAdapter(private val context: Context, private val categories: List<Category>) :

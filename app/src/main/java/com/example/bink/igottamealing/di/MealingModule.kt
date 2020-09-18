@@ -3,6 +3,7 @@ package com.example.bink.igottamealing.di
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.viewmodel.CategoryViewModel
 import com.example.bink.igottamealing.viewmodel.MainViewModel
+import com.example.bink.igottamealing.viewmodel.MealDetailsViewModel
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -27,4 +28,8 @@ class MealingModule {
     @Provides
     @Singleton
     fun providesCategoryViewModel(mealsService: MealsService): CategoryViewModel = CategoryViewModel(mealsService)
+
+    @Provides
+    @Singleton
+    fun providesMealViewModel(mealsService: MealsService): MealDetailsViewModel = MealDetailsViewModel(mealsService)
 }
