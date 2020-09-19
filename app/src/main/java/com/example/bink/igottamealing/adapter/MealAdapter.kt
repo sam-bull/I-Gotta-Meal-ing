@@ -1,4 +1,4 @@
-package com.example.bink.igottamealing.adaptor
+package com.example.bink.igottamealing.adapter
 
 import android.content.Context
 import android.content.Intent

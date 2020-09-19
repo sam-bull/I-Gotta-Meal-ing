@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bink.igottamealing.MealingApplication
 import com.example.bink.igottamealing.R
-import com.example.bink.igottamealing.adaptor.CategoryAdapter
+import com.example.bink.igottamealing.adapter.CategoryAdapter
 import com.example.bink.igottamealing.databinding.FragmentMainBinding
+import com.example.bink.igottamealing.layoutmanager.GridAutofitLayoutManager
 import com.example.bink.igottamealing.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
@@ -45,8 +45,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO change spanCount for different screens
-        categories_recyclerview.layoutManager = GridLayoutManager(context, 2)
+        categories_recyclerview.layoutManager = context?.let { GridAutofitLayoutManager(it, resources.getDimension(R.dimen.category_item_min_width_dp)) }
         categories_recyclerview.adapter = context?.let { CategoryAdapter(it, resources, viewModel.categories) }
 
         viewModel.categoriesLoaded.observe(viewLifecycleOwner, Observer { success ->

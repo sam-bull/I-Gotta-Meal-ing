@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bink.igottamealing.MealingApplication
 import com.example.bink.igottamealing.R
-import com.example.bink.igottamealing.adaptor.IngredientAdapter
-import com.example.bink.igottamealing.adaptor.InstructionAdapter
+import com.example.bink.igottamealing.adapter.IngredientAdapter
+import com.example.bink.igottamealing.adapter.InstructionAdapter
 import com.example.bink.igottamealing.databinding.FragmentMealDetailsBinding
 import com.example.bink.igottamealing.viewmodel.MealDetailsViewModel
 import com.squareup.picasso.Picasso

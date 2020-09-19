@@ -28,6 +28,7 @@ class MainViewModel @Inject constructor(private val mealsService: MealsService) 
             override fun onResponse(call: Call<Categories>, response: Response<Categories>) {
                 if (response.isSuccessful) {
                     response.body()?.categories?.let {
+                        categories.clear()
                         categories.addAll(it)
                     }
                     _categoriesLoaded.postValue(true)

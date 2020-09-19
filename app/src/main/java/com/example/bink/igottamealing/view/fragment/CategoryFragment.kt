@@ -10,8 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bink.igottamealing.MealingApplication
 import com.example.bink.igottamealing.R
-import com.example.bink.igottamealing.adaptor.MealAdapter
+import com.example.bink.igottamealing.adapter.MealAdapter
 import com.example.bink.igottamealing.databinding.FragmentCategoryBinding
+import com.example.bink.igottamealing.layoutmanager.GridAutofitLayoutManager
 import com.example.bink.igottamealing.viewmodel.CategoryViewModel
 import kotlinx.android.synthetic.main.fragment_category.*
 import javax.inject.Inject
@@ -46,7 +47,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        meals_recyclerview.layoutManager = LinearLayoutManager(context)
+        meals_recyclerview.layoutManager = context?.let { GridAutofitLayoutManager(it, resources.getDimension(R.dimen.meal_item_min_width_dp)) }
         meals_recyclerview.adapter = context?.let { MealAdapter(it, resources, viewModel.meals) }
 
         viewModel.mealsLoaded.observe(viewLifecycleOwner, Observer { success ->

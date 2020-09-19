@@ -30,6 +30,7 @@ class CategoryViewModel @Inject constructor(private val mealsService: MealsServi
                 override fun onResponse(call: Call<Meals>, response: Response<Meals>) {
                     if (response.isSuccessful) {
                         response.body()?.meals?.let {
+                            meals.clear()
                             meals.addAll(it)
                         }
                         _mealsLoaded.postValue(true)

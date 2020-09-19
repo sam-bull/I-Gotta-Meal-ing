@@ -1,4 +1,4 @@
-package com.example.bink.igottamealing.adaptor
+package com.example.bink.igottamealing.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
