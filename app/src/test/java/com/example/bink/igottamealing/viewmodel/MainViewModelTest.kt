@@ -1,7 +1,9 @@
 package com.example.bink.igottamealing.viewmodel
 
+import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.Categories
 import com.example.bink.igottamealing.model.Category
@@ -31,6 +33,9 @@ class MainViewModelTest {
     private lateinit var viewModel: MainViewModel
 
     @Mock
+    lateinit var resources: Resources
+
+    @Mock
     lateinit var mealsService: MealsService
 
     @Mock
@@ -48,8 +53,9 @@ class MainViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MainViewModel(mealsService)
+        viewModel = MainViewModel(resources, mealsService)
 
+        whenever(resources.getString(R.string.error_message, "error")).thenReturn("error")
         viewModel.categoriesLoaded.observeForever(categoriesLoadedObserver)
         viewModel.errorText.observeForever(errorTextObserver)
     }

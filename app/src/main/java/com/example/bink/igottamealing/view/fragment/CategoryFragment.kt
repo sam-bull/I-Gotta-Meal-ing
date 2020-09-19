@@ -47,12 +47,17 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        meals_swipe_refresh_layout.setOnRefreshListener {
+            viewModel.onRefresh()
+        }
+
         meals_recyclerview.layoutManager = context?.let { GridAutofitLayoutManager(it, resources.getDimension(R.dimen.meal_item_min_width_dp)) }
         meals_recyclerview.adapter = context?.let { MealAdapter(it, resources, viewModel.meals) }
 
         viewModel.mealsLoaded.observe(viewLifecycleOwner, Observer { success ->
             meals_view_flipper.displayedChild = if (success) 1 else 2
             (meals_recyclerview.adapter as MealAdapter).notifyDataSetChanged()
+            meals_swipe_refresh_layout.isRefreshing = false
         })
 
         viewModel.onViewCreated()

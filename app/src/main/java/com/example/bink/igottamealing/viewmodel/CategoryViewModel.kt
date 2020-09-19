@@ -1,8 +1,10 @@
 package com.example.bink.igottamealing.viewmodel
 
+import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.Meal
 import com.example.bink.igottamealing.model.Meals
@@ -13,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CategoryViewModel @Inject constructor(private val mealsService: MealsService) : ViewModel() {
+class CategoryViewModel @Inject constructor(private val resources: Resources, private val mealsService: MealsService) : ViewModel() {
 
     lateinit var category: String
     val meals = mutableListOf<Meal>()
@@ -25,6 +27,14 @@ class CategoryViewModel @Inject constructor(private val mealsService: MealsServi
     val errorText: LiveData<String> = _errorText
 
     fun onViewCreated() {
+        getMeals()
+    }
+
+    fun onRefresh() {
+        getMeals()
+    }
+
+    private fun getMeals() {
         mealsService.getMealsForCategory(MealsService.API_KEY, category)
             .enqueue(object : Callback<Meals> {
                 override fun onResponse(call: Call<Meals>, response: Response<Meals>) {
@@ -35,15 +45,18 @@ class CategoryViewModel @Inject constructor(private val mealsService: MealsServi
                         }
                         _mealsLoaded.postValue(true)
                     } else {
-                        _mealsLoaded.postValue(false)
-                        _errorText.postValue(response.errorBody()?.string())
+                        showError(response.errorBody()?.string())
                     }
                 }
 
                 override fun onFailure(call: Call<Meals>, t: Throwable) {
-                    _mealsLoaded.postValue(false)
-                    _errorText.postValue(t.message)
+                    showError(t.message)
                 }
             })
+    }
+
+    private fun showError(text: String?) {
+        _mealsLoaded.postValue(false)
+        _errorText.postValue(resources.getString(R.string.error_message, text))
     }
 }

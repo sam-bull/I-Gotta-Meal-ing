@@ -57,9 +57,14 @@ class MealDetailsFragment : Fragment() {
         viewModel.image.observe(viewLifecycleOwner, Observer { url ->
             Picasso.get().load(url).placeholder(R.drawable.ic_image_placeholder_white_24dp)
                 .into(meal_image)
+        })
+
+        viewModel.detailsLoaded.observe(viewLifecycleOwner, Observer { success ->
+            meal_details_view_flipper.displayedChild = if (success) 1 else 2
             (ingredients_recyclerview.adapter as IngredientAdapter).notifyDataSetChanged()
             (instructions_recyclerview.adapter as InstructionAdapter).notifyDataSetChanged()
         })
+
         viewModel.onViewCreated()
     }
 }

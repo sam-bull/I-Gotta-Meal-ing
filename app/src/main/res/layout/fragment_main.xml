@@ -30,28 +30,37 @@
             android:layout_margin="4dp"
             android:text="@string/select_category" />
 
-        <ViewFlipper
-            android:id="@+id/categories_view_flipper"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/categories_swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp">
+            android:layout_height="match_parent">
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categories_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <ViewFlipper
+                android:id="@+id/categories_view_flipper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@{viewModel.errorText}" />
+                android:layout_margin="4dp">
 
-        </ViewFlipper>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categories_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="32dp"
+                    android:text="@{viewModel.errorText}" />
+
+            </ViewFlipper>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </layout>

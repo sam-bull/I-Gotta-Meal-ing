@@ -11,4 +11,6 @@
 
     <string name="category_image_description">A photo of the category %s</string>
     <string name="meal_image_description">A photo of the meal %s</string>
+
+    <string name="error_message">An error occurred: %s</string>
 </resources>

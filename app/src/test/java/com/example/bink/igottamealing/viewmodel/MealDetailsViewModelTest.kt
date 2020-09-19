@@ -49,6 +49,12 @@ class MealDetailsViewModelTest {
     @Mock
     lateinit var titleObserver: Observer<String>
 
+    @Mock
+    lateinit var detailsLoadedObserver: Observer<Boolean>
+
+    @Mock
+    lateinit var errorTextObserver: Observer<String>
+
     @Captor
     lateinit var captor: ArgumentCaptor<Callback<MealDetailsList>>
 
@@ -59,10 +65,13 @@ class MealDetailsViewModelTest {
         viewModel.mealId = MEAL_ID
 
         whenever(resources.getString(R.string.meal_image_description, "strMeal")).thenReturn("photo of strMeal")
+        whenever(resources.getString(R.string.error_message, "error")).thenReturn("error")
 
         viewModel.image.observeForever(imageObserver)
         viewModel.imageDescription.observeForever(imageDescriptionObserver)
         viewModel.title.observeForever(titleObserver)
+        viewModel.detailsLoaded.observeForever(detailsLoadedObserver)
+        viewModel.errorText.observeForever(errorTextObserver)
 
         verify(imageDescriptionObserver, Mockito.times(1)).onChanged("A placeholder image")
     }
@@ -72,6 +81,8 @@ class MealDetailsViewModelTest {
         verifyNoMoreInteractions(imageObserver)
         verifyNoMoreInteractions(imageDescriptionObserver)
         verifyNoMoreInteractions(titleObserver)
+        verifyNoMoreInteractions(detailsLoadedObserver)
+        verifyNoMoreInteractions(errorTextObserver)
     }
 
     @Test
@@ -146,6 +157,7 @@ class MealDetailsViewModelTest {
         verify(imageObserver, Mockito.times(1)).onChanged("strMealThumb")
         verify(imageDescriptionObserver, Mockito.times(1)).onChanged("photo of strMeal")
         verify(titleObserver, Mockito.times(1)).onChanged("strMeal")
+        verify(detailsLoadedObserver, Mockito.times(1)).onChanged(true)
         assertEquals(1, viewModel.ingredients.size)
         assertEquals(Ingredient("strIngredient1", "strMeasure1"), viewModel.ingredients.first())
         assertEquals(5, viewModel.instructions.size)
@@ -174,7 +186,8 @@ class MealDetailsViewModelTest {
         viewModel.onViewCreated()
 
         // Then
-        verify(titleObserver, Mockito.times(1)).onChanged("error")
+        verify(errorTextObserver, Mockito.times(1)).onChanged("error")
+        verify(detailsLoadedObserver, Mockito.times(1)).onChanged(false)
     }
 
     @Test
@@ -197,7 +210,8 @@ class MealDetailsViewModelTest {
         viewModel.onViewCreated()
 
         // Then
-        verify(titleObserver, Mockito.times(1)).onChanged("error")
+        verify(errorTextObserver, Mockito.times(1)).onChanged("error")
+        verify(detailsLoadedObserver, Mockito.times(1)).onChanged(false)
     }
 
     @Test
@@ -220,6 +234,7 @@ class MealDetailsViewModelTest {
         viewModel.onViewCreated()
 
         // Then
-        verify(titleObserver, Mockito.times(1)).onChanged("error")
+        verify(errorTextObserver, Mockito.times(1)).onChanged("error")
+        verify(detailsLoadedObserver, Mockito.times(1)).onChanged(false)
     }
 }

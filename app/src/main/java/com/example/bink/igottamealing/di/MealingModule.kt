@@ -22,14 +22,13 @@ class MealingModule(private val context: Context) {
         .addConverterFactory(GsonConverterFactory.create())
         .build().create(MealsService::class.java)
 
+    @Provides
+    @Singleton
+    fun providesMainViewModel(resources: Resources, mealsService: MealsService): MainViewModel = MainViewModel(resources, mealsService)
 
     @Provides
     @Singleton
-    fun providesMainViewModel(mealsService: MealsService): MainViewModel = MainViewModel(mealsService)
-
-    @Provides
-    @Singleton
-    fun providesCategoryViewModel(mealsService: MealsService): CategoryViewModel = CategoryViewModel(mealsService)
+    fun providesCategoryViewModel(resources: Resources, mealsService: MealsService): CategoryViewModel = CategoryViewModel(resources, mealsService)
 
     @Provides
     @Singleton

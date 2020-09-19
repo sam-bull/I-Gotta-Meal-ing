@@ -29,6 +29,12 @@ class MealDetailsViewModel @Inject constructor(private val resources: Resources,
     private val _title = MutableLiveData<String>()
     val title: LiveData<String> = _title
 
+    private val _detailsLoaded = MutableLiveData<Boolean>()
+    val detailsLoaded: LiveData<Boolean> = _detailsLoaded
+
+    private val _errorText = MutableLiveData<String>()
+    val errorText: LiveData<String> = _errorText
+
     val ingredients = mutableListOf<Ingredient>()
 
     val instructions = mutableListOf<String>()
@@ -45,13 +51,12 @@ class MealDetailsViewModel @Inject constructor(private val resources: Resources,
                             updateMealDetails(it[0])
                         }
                     } else {
-                        _title.postValue("error")
-                        println(response.message())
+                        showError("error")
                     }
                 }
 
                 override fun onFailure(call: Call<MealDetailsList>, t: Throwable) {
-                    _title.postValue("${t.message}")
+                    showError(t.message)
                 }
             })
     }
@@ -62,5 +67,11 @@ class MealDetailsViewModel @Inject constructor(private val resources: Resources,
         _title.postValue(mealDetails.strMeal)
         ingredients.addAll(mealDetails.getIngredients())
         instructions.addAll(mealDetails.strInstructions.split("\n"))
+        _detailsLoaded.postValue(true)
+    }
+
+    private fun showError(text: String?) {
+        _errorText.postValue(resources.getString(R.string.error_message, text))
+        _detailsLoaded.postValue(false)
     }
 }

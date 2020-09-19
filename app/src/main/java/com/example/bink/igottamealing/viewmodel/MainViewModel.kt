@@ -1,8 +1,10 @@
 package com.example.bink.igottamealing.viewmodel
 
+import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.Categories
 import com.example.bink.igottamealing.model.Category
@@ -13,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainViewModel @Inject constructor(private val mealsService: MealsService) : ViewModel() {
+class MainViewModel @Inject constructor(private val resources: Resources, private val mealsService: MealsService) : ViewModel() {
 
     val categories = mutableListOf<Category>()
 
@@ -24,6 +26,14 @@ class MainViewModel @Inject constructor(private val mealsService: MealsService) 
     val errorText: LiveData<String> = _errorText
 
     fun onViewCreated() {
+        getCategories()
+    }
+
+    fun onRefresh() {
+        getCategories()
+    }
+
+    private fun getCategories() {
         mealsService.getCategories(MealsService.API_KEY).enqueue(object : Callback<Categories> {
             override fun onResponse(call: Call<Categories>, response: Response<Categories>) {
                 if (response.isSuccessful) {
@@ -33,16 +43,19 @@ class MainViewModel @Inject constructor(private val mealsService: MealsService) 
                     }
                     _categoriesLoaded.postValue(true)
                 } else {
-                    _categoriesLoaded.postValue(false)
-                    _errorText.postValue(response.errorBody()?.string())
+                    showError(response.errorBody()?.string())
                 }
             }
 
             override fun onFailure(call: Call<Categories>, t: Throwable) {
-                _categoriesLoaded.postValue(false)
-                _errorText.postValue(t.message)
+                showError(t.message)
             }
         })
+    }
+
+    private fun showError(text: String?) {
+        _categoriesLoaded.postValue(false)
+        _errorText.postValue(resources.getString(R.string.error_message, text))
     }
 
 }

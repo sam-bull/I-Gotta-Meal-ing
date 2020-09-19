@@ -9,63 +9,82 @@
             type="com.example.bink.igottamealing.viewmodel.MealDetailsViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <ViewFlipper
+        android:id="@+id/meal_details_view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
+            android:layout_gravity="center" />
 
-            <ImageView
-                android:id="@+id/meal_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="4dp"
-                android:background="@drawable/bgd_orange_rounded_rect"
-                android:padding="8dp"
-                tools:src="@drawable/ic_image_placeholder_white_24dp"
-                android:contentDescription="@{viewModel.imageDescription}" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="4dp"
-                android:text="@{viewModel.title}"
-                tools:text="Recipe title" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="@string/ingredients"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingredients_recyclerview"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Menu"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="@string/instructions"
-                android:textStyle="bold"
-                tools:text="Instructions" />
+                android:orientation="vertical"
+                android:padding="4dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/instructions_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/meal_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bgd_orange_rounded_rect"
+                    android:contentDescription="@{viewModel.imageDescription}"
+                    android:padding="8dp"
+                    tools:src="@drawable/ic_image_placeholder_white_24dp" />
 
-    </androidx.core.widget.NestedScrollView>
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="4dp"
+                    android:text="@{viewModel.title}"
+                    tools:text="Recipe title" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="@string/ingredients"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ingredients_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="@string/instructions"
+                    android:textStyle="bold"
+                    tools:text="Instructions" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/instructions_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="32dp"
+            android:text="@{viewModel.errorText}" />
+
+    </ViewFlipper>
 </layout>
