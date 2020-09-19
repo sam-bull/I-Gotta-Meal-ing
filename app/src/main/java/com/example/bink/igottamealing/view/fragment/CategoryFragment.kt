@@ -47,7 +47,7 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         meals_recyclerview.layoutManager = LinearLayoutManager(context)
-        meals_recyclerview.adapter = context?.let { MealAdapter(it, viewModel.meals) }
+        meals_recyclerview.adapter = context?.let { MealAdapter(it, resources, viewModel.meals) }
 
         viewModel.mealsLoaded.observe(viewLifecycleOwner, Observer { success ->
             meals_view_flipper.displayedChild = if (success) 1 else 2

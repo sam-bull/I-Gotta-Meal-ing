@@ -1,7 +1,9 @@
 package com.example.bink.igottamealing.viewmodel
 
+import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.example.bink.igottamealing.R
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.*
 import com.nhaarman.mockitokotlin2.verify
@@ -30,6 +32,9 @@ class MealDetailsViewModelTest {
     private lateinit var viewModel: MealDetailsViewModel
 
     @Mock
+    lateinit var resources: Resources
+
+    @Mock
     lateinit var mealsService: MealsService
 
     @Mock
@@ -37,6 +42,9 @@ class MealDetailsViewModelTest {
 
     @Mock
     lateinit var imageObserver: Observer<String>
+
+    @Mock
+    lateinit var imageDescriptionObserver: Observer<String>
 
     @Mock
     lateinit var titleObserver: Observer<String>
@@ -47,16 +55,22 @@ class MealDetailsViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MealDetailsViewModel(mealsService)
+        viewModel = MealDetailsViewModel(resources, mealsService)
         viewModel.mealId = MEAL_ID
 
+        whenever(resources.getString(R.string.meal_image_description, "strMeal")).thenReturn("photo of strMeal")
+
         viewModel.image.observeForever(imageObserver)
+        viewModel.imageDescription.observeForever(imageDescriptionObserver)
         viewModel.title.observeForever(titleObserver)
+
+        verify(imageDescriptionObserver, Mockito.times(1)).onChanged("A placeholder image")
     }
 
     @After
     fun tearDown() {
         verifyNoMoreInteractions(imageObserver)
+        verifyNoMoreInteractions(imageDescriptionObserver)
         verifyNoMoreInteractions(titleObserver)
     }
 
@@ -130,6 +144,7 @@ class MealDetailsViewModelTest {
 
         // Then
         verify(imageObserver, Mockito.times(1)).onChanged("strMealThumb")
+        verify(imageDescriptionObserver, Mockito.times(1)).onChanged("photo of strMeal")
         verify(titleObserver, Mockito.times(1)).onChanged("strMeal")
         assertEquals(1, viewModel.ingredients.size)
         assertEquals(Ingredient("strIngredient1", "strMeasure1"), viewModel.ingredients.first())
@@ -142,10 +157,12 @@ class MealDetailsViewModelTest {
     fun `when the view is created and the meal details request returns an empty list, the UI is updated with an error`() {
         // Given
         val meals = listOf<MealDetails>()
-        whenever(mealsService.getMealDetails(
-            API_KEY,
-            MEAL_ID
-        )).thenReturn(mockCall)
+        whenever(
+            mealsService.getMealDetails(
+                API_KEY,
+                MEAL_ID
+            )
+        ).thenReturn(mockCall)
         whenever(mockCall.enqueue(captor.capture())).then {
             captor.value.onResponse(
                 mockCall,
@@ -158,15 +175,17 @@ class MealDetailsViewModelTest {
 
         // Then
         verify(titleObserver, Mockito.times(1)).onChanged("error")
-        }
+    }
 
     @Test
     fun `when the view is created and the meal details request responds with an error, the UI is updated with an error message`() {
         // Given
-        whenever(mealsService.getMealDetails(
-            API_KEY,
-            MEAL_ID
-        )).thenReturn(mockCall)
+        whenever(
+            mealsService.getMealDetails(
+                API_KEY,
+                MEAL_ID
+            )
+        ).thenReturn(mockCall)
         whenever(mockCall.enqueue(captor.capture())).then {
             captor.value.onResponse(
                 mockCall,
@@ -184,10 +203,12 @@ class MealDetailsViewModelTest {
     @Test
     fun `when the view is created and the meal details request fails, the UI is updated with an error message`() {
         // Given
-        whenever(mealsService.getMealDetails(
-            API_KEY,
-            MEAL_ID
-        )).thenReturn(mockCall)
+        whenever(
+            mealsService.getMealDetails(
+                API_KEY,
+                MEAL_ID
+            )
+        ).thenReturn(mockCall)
         whenever(mockCall.enqueue(captor.capture())).then {
             captor.value.onFailure(
                 mockCall,

@@ -2,6 +2,7 @@ package com.example.bink.igottamealing.adaptor
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
@@ -12,7 +13,7 @@ import com.example.bink.igottamealing.model.Meal
 import com.example.bink.igottamealing.view.activity.MealDetailsActivity
 import com.squareup.picasso.Picasso
 
-class MealAdapter(private val context: Context, private val meals: List<Meal>) :
+class MealAdapter(private val context: Context, private val resources: Resources, private val meals: List<Meal>) :
     RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
 
     class MealViewHolder(val binding: ViewMealBinding) :
@@ -33,8 +34,10 @@ class MealAdapter(private val context: Context, private val meals: List<Meal>) :
     override fun getItemCount() = meals.size
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
+        val mealName = meals[position].strMeal
         holder.binding.apply {
-            mealName = meals[position].strMeal
+            imageDescription = resources.getString(R.string.meal_image_description, mealName)
+            this.mealName = mealName
         }
         Picasso.get().load(meals[position].strMealThumb)
             .placeholder(R.drawable.ic_image_placeholder_white_24dp).into(holder.imageView)

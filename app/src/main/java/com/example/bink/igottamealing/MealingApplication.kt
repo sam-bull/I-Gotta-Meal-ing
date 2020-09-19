@@ -12,6 +12,6 @@ class MealingApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        component = DaggerMealingComponent.builder().mealingModule(MealingModule()).build()
+        component = DaggerMealingComponent.builder().mealingModule(MealingModule(applicationContext)).build()
     }
 }

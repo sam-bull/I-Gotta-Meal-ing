@@ -1,5 +1,7 @@
 package com.example.bink.igottamealing.di
 
+import android.content.Context
+import android.content.res.Resources
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.viewmodel.CategoryViewModel
 import com.example.bink.igottamealing.viewmodel.MainViewModel
@@ -11,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class MealingModule {
+class MealingModule(private val context: Context) {
 
     @Provides
     @Singleton
@@ -31,5 +33,10 @@ class MealingModule {
 
     @Provides
     @Singleton
-    fun providesMealViewModel(mealsService: MealsService): MealDetailsViewModel = MealDetailsViewModel(mealsService)
+    fun providesResources(): Resources = context.resources
+
+    @Provides
+    @Singleton
+    fun providesMealViewModel(resources: Resources, mealsService: MealsService): MealDetailsViewModel = MealDetailsViewModel(resources, mealsService)
+
 }

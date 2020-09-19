@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="imageDescription"
+            type="String" />
+
+        <variable
             name="categoryName"
             type="String" />
     </data>
@@ -24,7 +28,8 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_margin="4dp"
-            tools:src="@drawable/ic_image_placeholder_white_24dp" />
+            tools:src="@drawable/ic_image_placeholder_white_24dp"
+            android:contentDescription="@{imageDescription}" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Body2"

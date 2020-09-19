@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="imageDescription"
+            type="String" />
+
+        <variable
             name="mealName"
             type="String" />
     </data>
@@ -23,7 +27,8 @@
             android:id="@+id/meal_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="4dp" />
+            android:layout_margin="4dp"
+            android:contentDescription="@{imageDescription}" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Body2"

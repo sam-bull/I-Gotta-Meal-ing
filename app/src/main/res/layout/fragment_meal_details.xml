@@ -27,7 +27,8 @@
                 android:layout_margin="4dp"
                 android:background="@drawable/bgd_orange_rounded_rect"
                 android:padding="8dp"
-                tools:src="@drawable/ic_image_placeholder_white_24dp" />
+                tools:src="@drawable/ic_image_placeholder_white_24dp"
+                android:contentDescription="@{viewModel.imageDescription}" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Title"

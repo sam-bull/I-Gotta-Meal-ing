@@ -2,6 +2,7 @@ package com.example.bink.igottamealing.adaptor
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
@@ -12,7 +13,7 @@ import com.example.bink.igottamealing.model.Category
 import com.example.bink.igottamealing.view.activity.CategoryActivity
 import com.squareup.picasso.Picasso
 
-class CategoryAdapter(private val context: Context, private val categories: List<Category>) :
+class CategoryAdapter(private val context: Context, private val resources: Resources, private val categories: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     class CategoryViewHolder(val binding: ViewCategoryBinding) :
@@ -33,11 +34,12 @@ class CategoryAdapter(private val context: Context, private val categories: List
     override fun getItemCount() = categories.size
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val name = categories[position].strCategory
         holder.binding.apply {
-            categoryName = categories[position].strCategory
+            imageDescription = resources.getString(R.string.category_image_description, name)
+            categoryName = name
         }
         Picasso.get().load(categories[position].strCategoryThumb).placeholder(R.drawable.ic_image_placeholder_white_24dp).into(holder.imageView)
-        val name = categories[position].strCategory
         holder.container.setOnClickListener {
             val intent = Intent(context, CategoryActivity::class.java).apply {
                 putExtra("CATEGORY", name)

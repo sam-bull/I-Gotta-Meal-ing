@@ -47,7 +47,7 @@ class MainFragment : Fragment() {
 
         // TODO change spanCount for different screens
         categories_recyclerview.layoutManager = GridLayoutManager(context, 2)
-        categories_recyclerview.adapter = context?.let { CategoryAdapter(it, viewModel.categories) }
+        categories_recyclerview.adapter = context?.let { CategoryAdapter(it, resources, viewModel.categories) }
 
         viewModel.categoriesLoaded.observe(viewLifecycleOwner, Observer { success ->
             categories_view_flipper.displayedChild = if (success) 1 else 2
