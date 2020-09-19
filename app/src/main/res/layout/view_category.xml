@@ -24,7 +24,7 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_margin="4dp"
-            tools:src="@drawable/ic_image_placeholder_white_24dp"/>
+            tools:src="@drawable/ic_image_placeholder_white_24dp" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Body2"
@@ -33,7 +33,7 @@
             android:layout_margin="4dp"
             android:text="@{categoryName}"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             tools:text="Pasta" />
 
     </LinearLayout>

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bink.igottamealing.api.MealsService
+import com.example.bink.igottamealing.model.Ingredient
 import com.example.bink.igottamealing.model.MealDetails
 import com.example.bink.igottamealing.model.MealDetailsList
 import retrofit2.Call
@@ -22,11 +23,9 @@ class MealDetailsViewModel @Inject constructor(private val mealsService: MealsSe
     private val _title = MutableLiveData<String>()
     val title: LiveData<String> = _title
 
-    private val _ingredients = MutableLiveData<String>()
-    val ingredients: LiveData<String> = _ingredients
+    val ingredients = mutableListOf<Ingredient>()
 
-    private val _instructions = MutableLiveData<String>()
-    val instructions: LiveData<String> = _instructions
+    val instructions = mutableListOf<String>()
 
     fun onViewCreated() {
         mealsService.getMealDetails(MealsService.API_KEY, mealId)
@@ -54,7 +53,7 @@ class MealDetailsViewModel @Inject constructor(private val mealsService: MealsSe
     private fun updateMealDetails(mealDetails: MealDetails) {
         _image.postValue(mealDetails.strMealThumb)
         _title.postValue(mealDetails.strMeal)
-        _ingredients.postValue(mealDetails.getIngredients().joinToString("\n"))
-        _instructions.postValue(mealDetails.strInstructions)
+        ingredients.addAll(mealDetails.getIngredients())
+        instructions.addAll(mealDetails.strInstructions.split("\n"))
     }
 }

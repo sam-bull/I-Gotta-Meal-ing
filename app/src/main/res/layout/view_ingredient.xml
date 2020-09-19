@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="ingredient"
+            type="String" />
+
+        <variable
+            name="isLight"
+            type="Boolean" />
+    </data>
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@drawable/bgd_purple_rounded_rect"
+        android:backgroundTint="@{isLight ? @color/lightPurple : @color/purple}"
+        android:padding="2dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@{ingredient}"
+        android:textColor="@{isLight ? @color/black : @color/white}"
+        tools:backgroundTint="@color/lightPurple"
+        tools:text="Pasta"
+        tools:textColor="@color/black" />
+
+</layout>

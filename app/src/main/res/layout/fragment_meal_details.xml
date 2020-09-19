@@ -9,7 +9,7 @@
             type="com.example.bink.igottamealing.viewmodel.MealDetailsViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +26,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="4dp"
                 android:background="@drawable/bgd_orange_rounded_rect"
-                android:padding="4dp"
+                android:padding="8dp"
                 tools:src="@drawable/ic_image_placeholder_white_24dp" />
 
             <TextView
@@ -39,21 +39,32 @@
                 tools:text="Recipe title" />
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Body1"
+                style="@style/TextAppearance.AppCompat.Menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="@{viewModel.ingredients}"
-                tools:text="Ingredients list" />
+                android:text="@string/ingredients"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingredients_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Body2"
+                style="@style/TextAppearance.AppCompat.Menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="@{viewModel.instructions}"
+                android:text="@string/instructions"
+                android:textStyle="bold"
                 tools:text="Instructions" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/instructions_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

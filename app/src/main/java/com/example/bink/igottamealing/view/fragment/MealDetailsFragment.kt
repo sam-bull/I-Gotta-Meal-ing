@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bink.igottamealing.MealingApplication
 import com.example.bink.igottamealing.R
+import com.example.bink.igottamealing.adaptor.IngredientAdapter
+import com.example.bink.igottamealing.adaptor.InstructionAdapter
 import com.example.bink.igottamealing.databinding.FragmentMealDetailsBinding
 import com.example.bink.igottamealing.viewmodel.MealDetailsViewModel
 import com.squareup.picasso.Picasso
@@ -44,10 +47,18 @@ class MealDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ingredients_recyclerview.layoutManager = LinearLayoutManager(context)
+        ingredients_recyclerview.adapter = IngredientAdapter(viewModel.ingredients)
+
+        instructions_recyclerview.layoutManager = LinearLayoutManager(context)
+        instructions_recyclerview.adapter = InstructionAdapter(viewModel.instructions)
+
         viewModel.image.observe(viewLifecycleOwner, Observer { url ->
             Picasso.get().load(url).placeholder(R.drawable.ic_image_placeholder_white_24dp)
                 .into(meal_image)
-
+            (ingredients_recyclerview.adapter as IngredientAdapter).notifyDataSetChanged()
+            (instructions_recyclerview.adapter as InstructionAdapter).notifyDataSetChanged()
         })
         viewModel.onViewCreated()
     }

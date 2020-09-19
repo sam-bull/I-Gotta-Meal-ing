@@ -3,10 +3,7 @@ package com.example.bink.igottamealing.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.bink.igottamealing.api.MealsService
-import com.example.bink.igottamealing.model.Meal
-import com.example.bink.igottamealing.model.MealDetails
-import com.example.bink.igottamealing.model.MealDetailsList
-import com.example.bink.igottamealing.model.Meals
+import com.example.bink.igottamealing.model.*
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
@@ -44,12 +41,6 @@ class MealDetailsViewModelTest {
     @Mock
     lateinit var titleObserver: Observer<String>
 
-    @Mock
-    lateinit var ingredientsObserver: Observer<String>
-
-    @Mock
-    lateinit var instructionsObserver: Observer<String>
-
     @Captor
     lateinit var captor: ArgumentCaptor<Callback<MealDetailsList>>
 
@@ -61,16 +52,12 @@ class MealDetailsViewModelTest {
 
         viewModel.image.observeForever(imageObserver)
         viewModel.title.observeForever(titleObserver)
-        viewModel.ingredients.observeForever(ingredientsObserver)
-        viewModel.instructions.observeForever(instructionsObserver)
     }
 
     @After
     fun tearDown() {
         verifyNoMoreInteractions(imageObserver)
         verifyNoMoreInteractions(titleObserver)
-        verifyNoMoreInteractions(ingredientsObserver)
-        verifyNoMoreInteractions(instructionsObserver)
     }
 
     @Test
@@ -82,7 +69,7 @@ class MealDetailsViewModelTest {
             "strDrinkAlternate",
             "strCategory",
             "strArea",
-            "strInstructions",
+            "Put teabag in mug\nBoil the kettle\nPour just-boiled water into mug\nSqueeze teabag and dispose\nAdd milk",
             "strMealThumb",
             "strTags",
             "strYoutube",
@@ -144,8 +131,10 @@ class MealDetailsViewModelTest {
         // Then
         verify(imageObserver, Mockito.times(1)).onChanged("strMealThumb")
         verify(titleObserver, Mockito.times(1)).onChanged("strMeal")
-        verify(ingredientsObserver, Mockito.times(1)).onChanged("strIngredient1 - strMeasure1")
-        verify(instructionsObserver, Mockito.times(1)).onChanged("strInstructions")
+        assertEquals(1, viewModel.ingredients.size)
+        assertEquals(Ingredient("strIngredient1", "strMeasure1"), viewModel.ingredients.first())
+        assertEquals(5, viewModel.instructions.size)
+        assertEquals("Put teabag in mug", viewModel.instructions.first())
     }
 
 

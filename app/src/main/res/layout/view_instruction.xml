@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="instructionNumber"
+            type="String" />
+
+        <variable
+            name="instruction"
+            type="String" />
+
+        <variable
+            name="isLight"
+            type="Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bgd_purple_rounded_rect"
+        android:backgroundTint="@{isLight ? @color/lightOrange : @color/orange}"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:paddingStart="8dp"
+        android:layout_margin="1dp"
+        android:paddingEnd="8dp"
+        tools:backgroundTint="@color/lightOrange">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@{instructionNumber}"
+            android:textColor="@color/black"
+            tools:text="1)" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{instruction}"
+            android:textColor="@color/black"
+            tools:text="Boil a pan of water" />
+
+    </LinearLayout>
+
+</layout>
