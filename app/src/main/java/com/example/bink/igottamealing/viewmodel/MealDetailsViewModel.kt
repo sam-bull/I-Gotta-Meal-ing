@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.MealDetails
 import com.example.bink.igottamealing.model.MealDetailsList
-import com.example.bink.igottamealing.model.Meals
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class MealDetailsViewModel @Inject constructor(private val mealsService: MealsService) : ViewModel() {
+class MealDetailsViewModel @Inject constructor(private val mealsService: MealsService) :
+    ViewModel() {
 
     lateinit var mealId: String
 
@@ -31,8 +31,11 @@ class MealDetailsViewModel @Inject constructor(private val mealsService: MealsSe
     fun onViewCreated() {
         mealsService.getMealDetails(MealsService.API_KEY, mealId)
             .enqueue(object : Callback<MealDetailsList> {
-                override fun onResponse(call: Call<MealDetailsList>, response: Response<MealDetailsList>) {
-                    if (response.isSuccessful) {
+                override fun onResponse(
+                    call: Call<MealDetailsList>,
+                    response: Response<MealDetailsList>
+                ) {
+                    if (response.isSuccessful && response.body()?.meals?.isNotEmpty() == true) {
                         response.body()?.meals?.let {
                             updateMealDetails(it[0])
                         }
@@ -43,7 +46,7 @@ class MealDetailsViewModel @Inject constructor(private val mealsService: MealsSe
                 }
 
                 override fun onFailure(call: Call<MealDetailsList>, t: Throwable) {
-                    _title.postValue("error ${t.message}")
+                    _title.postValue("${t.message}")
                 }
             })
     }
