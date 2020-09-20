@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bink.igottamealing.databinding.ViewIngredientBinding
 import com.example.bink.igottamealing.model.Ingredient
+import java.util.*
 
 class IngredientAdapter (private val ingredients: List<Ingredient>) :
         RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {

@@ -61,7 +61,7 @@ class MealDetailsViewModel @Inject constructor(
         )
         _title.postValue(mealDetails.strMeal)
         ingredients.addAll(mealDetails.getIngredients())
-        instructions.addAll(mealDetails.strInstructions.split("\n"))
+        mealDetails.strInstructions?.let { instructions.addAll(it.split("\n").filter { str -> str.replace(Regex("\\s+"), "").isNotEmpty() }) }
         _detailsLoaded.postValue(true)
     }
 
