@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_margin="4dp"
-            android:text="@string/app_tagline" />
+            android:text="@string/app_tagline"
+            android:textStyle="italic" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Body1"
