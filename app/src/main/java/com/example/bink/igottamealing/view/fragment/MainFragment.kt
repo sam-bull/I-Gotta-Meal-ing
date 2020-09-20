@@ -55,6 +55,7 @@ class MainFragment : Fragment() {
             categories_view_flipper.displayedChild = if (success) 1 else 2
             (categories_recyclerview.adapter as CategoryAdapter).notifyDataSetChanged()
             categories_swipe_refresh_layout.isRefreshing = false
+            categories_recyclerview.scheduleLayoutAnimation()
         })
 
         viewModel.onViewCreated()

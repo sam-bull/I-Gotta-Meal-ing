@@ -58,6 +58,7 @@ class CategoryFragment : Fragment() {
             meals_view_flipper.displayedChild = if (success) 1 else 2
             (meals_recyclerview.adapter as MealAdapter).notifyDataSetChanged()
             meals_swipe_refresh_layout.isRefreshing = false
+            meals_recyclerview.scheduleLayoutAnimation()
         })
 
         viewModel.onViewCreated()

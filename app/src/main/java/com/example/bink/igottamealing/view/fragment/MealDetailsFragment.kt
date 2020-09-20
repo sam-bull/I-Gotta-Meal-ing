@@ -63,6 +63,8 @@ class MealDetailsFragment : Fragment() {
             meal_details_view_flipper.displayedChild = if (success) 1 else 2
             (ingredients_recyclerview.adapter as IngredientAdapter).notifyDataSetChanged()
             (instructions_recyclerview.adapter as InstructionAdapter).notifyDataSetChanged()
+            ingredients_recyclerview.scheduleLayoutAnimation()
+            instructions_recyclerview.scheduleLayoutAnimation()
         })
 
         viewModel.onViewCreated()
