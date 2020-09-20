@@ -4,6 +4,7 @@ import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.bink.igottamealing.R
+import com.example.bink.igottamealing.api.CachedMealsService
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.*
 import com.nhaarman.mockitokotlin2.verify
@@ -30,6 +31,8 @@ class MealDetailsViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: MealDetailsViewModel
+
+    private lateinit var cachedMealsService: CachedMealsService
 
     @Mock
     lateinit var resources: Resources
@@ -61,7 +64,8 @@ class MealDetailsViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MealDetailsViewModel(resources, mealsService)
+        cachedMealsService = CachedMealsService(mealsService)
+        viewModel = MealDetailsViewModel(resources, cachedMealsService)
         viewModel.mealId = MEAL_ID
 
         whenever(resources.getString(R.string.meal_image_description, "strMeal")).thenReturn("photo of strMeal")
@@ -186,7 +190,7 @@ class MealDetailsViewModelTest {
         viewModel.onViewCreated()
 
         // Then
-        verify(errorTextObserver, Mockito.times(1)).onChanged("error")
+        verify(errorTextObserver, Mockito.times(1)).onChanged(null)
         verify(detailsLoadedObserver, Mockito.times(1)).onChanged(false)
     }
 

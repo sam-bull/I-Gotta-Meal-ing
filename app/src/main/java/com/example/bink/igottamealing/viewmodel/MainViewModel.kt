@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bink.igottamealing.R
+import com.example.bink.igottamealing.api.CachedMealsService
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.Categories
 import com.example.bink.igottamealing.model.Category
@@ -15,7 +16,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainViewModel @Inject constructor(private val resources: Resources, private val mealsService: MealsService) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val resources: Resources,
+    private val cachedMealsService: CachedMealsService
+) : ViewModel() {
 
     val categories = mutableListOf<Category>()
 
@@ -34,22 +38,14 @@ class MainViewModel @Inject constructor(private val resources: Resources, privat
     }
 
     private fun getCategories() {
-        mealsService.getCategories(MealsService.API_KEY).enqueue(object : Callback<Categories> {
-            override fun onResponse(call: Call<Categories>, response: Response<Categories>) {
-                if (response.isSuccessful) {
-                    response.body()?.categories?.let {
-                        categories.clear()
-                        categories.addAll(it)
-                    }
-                    _categoriesLoaded.postValue(true)
-                } else {
-                    showError(response.errorBody()?.string())
-                }
+        cachedMealsService.getCategories({
+            it?.let {
+                categories.clear()
+                categories.addAll(it)
             }
-
-            override fun onFailure(call: Call<Categories>, t: Throwable) {
-                showError(t.message)
-            }
+            _categoriesLoaded.postValue(true)
+        }, {
+            showError(it)
         })
     }
 

@@ -5,17 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bink.igottamealing.R
-import com.example.bink.igottamealing.api.MealsService
+import com.example.bink.igottamealing.api.CachedMealsService
 import com.example.bink.igottamealing.model.Meal
-import com.example.bink.igottamealing.model.Meals
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CategoryViewModel @Inject constructor(private val resources: Resources, private val mealsService: MealsService) : ViewModel() {
+class CategoryViewModel @Inject constructor(
+    private val resources: Resources,
+    private val mealsService: CachedMealsService
+) : ViewModel() {
 
     lateinit var category: String
     val meals = mutableListOf<Meal>()
@@ -35,24 +34,13 @@ class CategoryViewModel @Inject constructor(private val resources: Resources, pr
     }
 
     private fun getMeals() {
-        mealsService.getMealsForCategory(MealsService.API_KEY, category)
-            .enqueue(object : Callback<Meals> {
-                override fun onResponse(call: Call<Meals>, response: Response<Meals>) {
-                    if (response.isSuccessful) {
-                        response.body()?.meals?.let {
-                            meals.clear()
-                            meals.addAll(it)
-                        }
-                        _mealsLoaded.postValue(true)
-                    } else {
-                        showError(response.errorBody()?.string())
-                    }
-                }
-
-                override fun onFailure(call: Call<Meals>, t: Throwable) {
-                    showError(t.message)
-                }
-            })
+        mealsService.getMealsForCategory(category, {
+            it?.let {
+                meals.clear()
+                meals.addAll(it)
+            }
+            _mealsLoaded.postValue(true)
+        }, { showError(it) })
     }
 
     private fun showError(text: String?) {

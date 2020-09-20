@@ -4,6 +4,7 @@ import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.bink.igottamealing.R
+import com.example.bink.igottamealing.api.CachedMealsService
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.Meal
 import com.example.bink.igottamealing.model.Meals
@@ -30,6 +31,8 @@ class CategoryViewModelTest {
 
     private lateinit var viewModel: CategoryViewModel
 
+    private lateinit var cachedMealsService: CachedMealsService
+
     @Mock
     lateinit var resources: Resources
 
@@ -51,7 +54,8 @@ class CategoryViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = CategoryViewModel(resources, mealsService)
+        cachedMealsService = CachedMealsService(mealsService)
+        viewModel = CategoryViewModel(resources, cachedMealsService)
         viewModel.category = CATEGORY
 
         whenever(resources.getString(R.string.error_message, "error")).thenReturn("error")

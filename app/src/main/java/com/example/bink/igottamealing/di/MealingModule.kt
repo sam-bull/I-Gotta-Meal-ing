@@ -2,6 +2,7 @@ package com.example.bink.igottamealing.di
 
 import android.content.Context
 import android.content.res.Resources
+import com.example.bink.igottamealing.api.CachedMealsService
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.viewmodel.CategoryViewModel
 import com.example.bink.igottamealing.viewmodel.MainViewModel
@@ -24,11 +25,15 @@ class MealingModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun providesMainViewModel(resources: Resources, mealsService: MealsService): MainViewModel = MainViewModel(resources, mealsService)
+    fun providesCachedMealsService(mealsService: MealsService): CachedMealsService = CachedMealsService(mealsService)
 
     @Provides
     @Singleton
-    fun providesCategoryViewModel(resources: Resources, mealsService: MealsService): CategoryViewModel = CategoryViewModel(resources, mealsService)
+    fun providesMainViewModel(resources: Resources, cachedMealsService: CachedMealsService): MainViewModel = MainViewModel(resources, cachedMealsService)
+
+    @Provides
+    @Singleton
+    fun providesCategoryViewModel(resources: Resources, cachedMealsService: CachedMealsService): CategoryViewModel = CategoryViewModel(resources, cachedMealsService)
 
     @Provides
     @Singleton
@@ -36,6 +41,6 @@ class MealingModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun providesMealViewModel(resources: Resources, mealsService: MealsService): MealDetailsViewModel = MealDetailsViewModel(resources, mealsService)
+    fun providesMealViewModel(resources: Resources, cachedMealsService: CachedMealsService): MealDetailsViewModel = MealDetailsViewModel(resources, cachedMealsService)
 
 }

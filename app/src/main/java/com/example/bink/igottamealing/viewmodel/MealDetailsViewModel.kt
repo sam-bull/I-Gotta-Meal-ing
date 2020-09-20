@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bink.igottamealing.R
+import com.example.bink.igottamealing.api.CachedMealsService
 import com.example.bink.igottamealing.api.MealsService
 import com.example.bink.igottamealing.model.Ingredient
 import com.example.bink.igottamealing.model.MealDetails
@@ -15,7 +16,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class MealDetailsViewModel @Inject constructor(private val resources: Resources, private val mealsService: MealsService) :
+class MealDetailsViewModel @Inject constructor(
+    private val resources: Resources,
+    private val cachedMealsService: CachedMealsService
+) :
     ViewModel() {
 
     lateinit var mealId: String
@@ -40,30 +44,21 @@ class MealDetailsViewModel @Inject constructor(private val resources: Resources,
     val instructions = mutableListOf<String>()
 
     fun onViewCreated() {
-        mealsService.getMealDetails(MealsService.API_KEY, mealId)
-            .enqueue(object : Callback<MealDetailsList> {
-                override fun onResponse(
-                    call: Call<MealDetailsList>,
-                    response: Response<MealDetailsList>
-                ) {
-                    if (response.isSuccessful && response.body()?.meals?.isNotEmpty() == true) {
-                        response.body()?.meals?.let {
-                            updateMealDetails(it[0])
-                        }
-                    } else {
-                        showError("error")
-                    }
-                }
-
-                override fun onFailure(call: Call<MealDetailsList>, t: Throwable) {
-                    showError(t.message)
-                }
-            })
+        cachedMealsService.getMealDetails(mealId, {
+            it?.let { updateMealDetails(it) }
+        }, {
+            showError(it)
+        })
     }
 
     private fun updateMealDetails(mealDetails: MealDetails) {
         _image.postValue(mealDetails.strMealThumb)
-        _imageDescription.postValue(resources.getString(R.string.meal_image_description, mealDetails.strMeal))
+        _imageDescription.postValue(
+            resources.getString(
+                R.string.meal_image_description,
+                mealDetails.strMeal
+            )
+        )
         _title.postValue(mealDetails.strMeal)
         ingredients.addAll(mealDetails.getIngredients())
         instructions.addAll(mealDetails.strInstructions.split("\n"))
